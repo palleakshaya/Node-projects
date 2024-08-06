@@ -2,8 +2,8 @@ const express = require("express");
 const { v4 } = require("uuid");
 const os = require("os");
 const app = express();
-
-const PORT = 4000;
+var cors = require("cors");
+const PORT = process.env.PORT || 4000;
 
 let movies = [
   {
