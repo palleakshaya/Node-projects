@@ -5,6 +5,7 @@ import {
   getUsersByUsername,
   getAllUsers,
 } from "../services/users.service.js";
+import jwt from "jsonwebtoken";
 
 const genHashPassword = async (password) => {
   const NO_OF_ROUNDS = 10;
@@ -85,5 +86,15 @@ export async function loginUsersC(request, response) {
       storedDBPassword
     );
     console.log(isPasswordCheck);
+
+    if (isPasswordCheck) {
+      const token = jwt.sign(
+        { id: userFromDB.data.username },
+        process.env.SECRET_KEY
+      );
+      response.send({ msg: "Login Successful", token });
+    } else {
+      response.send({ msg: "Invalid Credentials" });
+    }
   }
 }
