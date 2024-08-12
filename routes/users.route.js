@@ -4,7 +4,7 @@ import { Movies } from "../entities/movies.entity.js";
 import {
   addingUsersC,
   getAllUsersC,
-  getUsersByIdC,
+  getUsersByUsernameC,
 } from "../controllers/users.controller.js";
 // import { getMovieByIdC } from "./getMovieByIdC.js";
 
@@ -120,7 +120,7 @@ let movies = [
   },
 ];
 router.get("/", getAllUsersC);
-router.get("/", getUsersByIdC); //signup
+router.get("/", getUsersByUsernameC); //signup
 // router.put("/:id", updateMovieByIdC);
 router.post("/signup", addingUsersC);
 // router.delete("/:id", deleteMovieByIdC);

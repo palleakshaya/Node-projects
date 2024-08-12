@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 import {
   addingUsers,
-  getUsersById,
+  getUsersByUsername,
   getAllUsers,
 } from "../services/users.service.js";
 
@@ -27,16 +27,16 @@ export async function getAllUsersC(request, response) {
     response.status(500).send("Failed to get Movies");
   }
 }
-export async function getUsersByIdC(request, response) {
+export async function getUsersByUsernameC(request, response) {
   const { username } = request.params;
   console.log(username);
   let res;
   try {
-    res = await getUsersById(id);
+    res = await getUsersByUsername(username);
     if (res.data) {
       response.send(res.data);
     } else {
-      response.status(404).send("Movie Not Found");
+      response.status(404).send("User Not Found");
     }
   } catch (error) {
     response.status(500).send("Failed to get Movies");
@@ -50,8 +50,13 @@ export async function addingUsersC(request, response) {
     response.status(400).send({ msg: "Password is too short" });
     return;
   }
+  const userFromDB = await getUsersByUsername(data.username);
+  if (userFromDB.data) {
+    response.status(400).send({ msg: "Username already taken" });
+    return;
+  }
 
-  //   console.log(data);
+  console.log(data);
   const hashedPassword1 = await genHashPassword(data.password);
 
   try {
