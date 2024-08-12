@@ -3,6 +3,7 @@ import express from "express";
 import { Movies } from "../entities/movies.entity.js";
 import {
   addingUsersC,
+  loginUsersC,
   getAllUsersC,
   getUsersByUsernameC,
 } from "../controllers/users.controller.js";
@@ -123,6 +124,9 @@ router.get("/", getAllUsersC);
 router.get("/", getUsersByUsernameC); //signup
 // router.put("/:id", updateMovieByIdC);
 router.post("/signup", addingUsersC);
+
+router.post("/login", loginUsersC);
+
 // router.delete("/:id", deleteMovieByIdC);
 
 export default router;

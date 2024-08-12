@@ -68,3 +68,22 @@ export async function addingUsersC(request, response) {
     response.status(500).send({ msg: "Failed to signup the user" });
   }
 }
+
+export async function loginUsersC(request, response) {
+  const data = request.body;
+  const userFromDB = await getUsersByUsername(data.username);
+  if (!userFromDB.data) {
+    response.status(400).send({ msg: "Invalid Credentials" });
+    return;
+  } else {
+    const storedDBPassword = userFromDB.data.password;
+    const providedPassword = data.password;
+    console.log(providedPassword, storedDBPassword);
+
+    const isPasswordCheck = await bcrypt.compare(
+      providedPassword,
+      storedDBPassword
+    );
+    console.log(isPasswordCheck);
+  }
+}
