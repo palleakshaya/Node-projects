@@ -5,6 +5,7 @@ import express from "express";
 import cors from "cors";
 import { v4 } from "uuid";
 import moviesRouter from "./routes/movies.route.js";
+import usersRouter from "./routes/users.route.js";
 
 // const os = require("os");
 const app = express();
@@ -30,5 +31,6 @@ app.get("/", function (request, response) {
 //   res.send("File updated successfully");
 // });
 
-app.use("/movies", moviesRouter);
+// app.use("/movies", moviesRouter);
+app.use("/users", usersRouter);
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
