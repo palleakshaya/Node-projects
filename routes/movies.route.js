@@ -1,7 +1,15 @@
 import express from "express";
 // import cors from "cors";
-import { v4 as uuidv4 } from "uuid";
-import { Movies } from "../entities/moviesentity.js";
+import { Movies } from "../entities/movies.entity.js";
+import {
+  addingMovieC,
+  deleteMovieByIdC,
+  getAllMoviesC,
+  getMovieByIdC,
+  updateMovieByIdC,
+} from "../controllers/movies.controller.js";
+// import { getMovieByIdC } from "./getMovieByIdC.js";
+
 const router = express.Router();
 let movies = [
   {
@@ -113,108 +121,44 @@ let movies = [
     id: "109",
   },
 ];
-router.get("/", async function (request, response) {
-  try {
-    const allMovies = await Movies.scan.go();
-    console.log(allMovies);
-    response.send(allMovies);
-  } catch (error) {
-    response.status(500).send("Failed to get Movies");
-  }
-});
+router.get("/", getAllMoviesC);
+router.get("/:id", getMovieByIdC);
+router.put("/:id", updateMovieByIdC);
+router.post("/", addingMovieC);
+router.delete("/:id", deleteMovieByIdC);
 
-router.get("/:id", async function (request, response) {
-  const { id } = request.params;
-  console.log(id);
-  let res;
-  //   movies.find((moviee) => {
-  //     if (moviee.id == id) {
-  //       data = moviee;
-  //     } else {
-  //       data = "error";
-  //     }
-  //   });
+export default router;
+//   movies.find((moviee) => {
+//     if (moviee.id == id) {
+//       data = moviee;
+//     } else {
+//       data = "error";
+//     }
+//   });
 
-  //getting data by id
-  //Can do by using filter also, but filter always gives array
-  // Find always gives one item only
-  //   data = movies.find((movie) => movie.id == id);
-  try {
-    res = await Movies.get({ movieId: id }).go();
-    if (res.data) {
-      response.send(res.data);
-    } else {
-      response.status(404).send("Movie Not Found");
-    }
-  } catch (error) {
-    response.status(500).send("Failed to get Movies");
-  }
-});
+//getting data by id
+//Can do by using filter also, but filter always gives array
+// Find always gives one item only
+//   data = movies.find((movie) => movie.id == id);
+
 //app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
 
 // To delete the movie
-router.delete("/:id", async function (request, response) {
-  const { id } = request.params;
-  // data = movies.find((movie) => movie.id == id);
-  try {
-    const result = await Movies.get({ movieId: id }).go();
-    if (result.data) {
-      // movies = movies.filter((movie) => movie.id != id);
-      await Movies.delete({ movieId: id }).go();
-      response.send("Movie deleted successfully");
-    } else {
-      response.status(404).send("Movie Not Found");
-    }
-  } catch (error) {
-    response.status(500).send("Failed to delete movie");
-  }
-  //   if (data) {
-  //     res = movies.indexOf(data).splice(res, 1);
-  //   }
-});
+
+//   if (data) {
+//     res = movies.indexOf(data).splice(res, 1);
+//   }
 
 //To inform express that the data in the body is json,
 //it uses "middleware"
-router.post("/", async function (request, response) {
-  const data = request.body;
-  console.log(data);
-  const addMovie = { ...data, movieId: uuidv4() };
-  try {
-    await Movies.create(addMovie).go();
-    console.log(addMovie);
-    // movies.push({ id: v4(), ...data });
-    response.send(addMovie);
-  } catch (error) {
-    response.status(500).send("Failed to create the movie");
-  }
-});
+
 //app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
 
-router.put("/:id", async function (request, response) {
-  const { id } = request.params;
-  const updateData = request.body;
-  try {
-    const existingData = await Movies.get({ movieId: id }).go();
-    if (existingData.data) {
-      const result = await Movies.put({
-        ...existingData.data,
-        ...updateData,
-      }).go();
-    }
-    console.log(id, existingData.data);
-    response.send(existingData.data);
-  } catch (error) {
-    response.status(500).send("Failed to update the movie");
-  }
-
-  //   fs.writefile("/movies/:id", data, (err) => {
-  //     if (err) {
-  //       console.error("Error updating file:", err);
-  //       return res.status(500).send("Error updating file");
-  //     }
-  //     res.send("File updated successfully");
-  //   });
-  //   movies.({ id: v4(), ...data });
-});
-
-export default router;
+//   fs.writefile("/movies/:id", data, (err) => {
+//     if (err) {
+//       console.error("Error updating file:", err);
+//       return res.status(500).send("Error updating file");
+//     }
+//     res.send("File updated successfully");
+//   });
+//   movies.({ id: v4(), ...data });

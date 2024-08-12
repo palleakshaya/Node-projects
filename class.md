@@ -10,3 +10,7 @@
 3. Set
    - set of strings
    - set of numbers
+
+## flow of movies in backend
+
+rqst -> index file -> router -> controller -> service -> database
