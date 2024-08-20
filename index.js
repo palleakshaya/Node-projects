@@ -31,6 +31,6 @@ app.get("/", function (request, response) {
 //   res.send("File updated successfully");
 // });
 
-// app.use("/movies", moviesRouter);
+app.use("/movies", moviesRouter);
 app.use("/users", usersRouter);
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));

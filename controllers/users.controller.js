@@ -72,6 +72,7 @@ export async function addingUsersC(request, response) {
 
 export async function loginUsersC(request, response) {
   const data = request.body;
+  console.log(data);
   const userFromDB = await getUsersByUsername(data.username);
   if (!userFromDB.data) {
     response.status(400).send({ msg: "Invalid Credentials" });

@@ -126,7 +126,7 @@ router.get("/", getUsersByUsernameC); //signup
 // router.put("/:id", updateMovieByIdC);
 router.post("/signup", addingUsersC);
 
-router.post("/login", auth, loginUsersC);
+router.post("/login", loginUsersC);
 
 // router.delete("/:id", deleteMovieByIdC);
 

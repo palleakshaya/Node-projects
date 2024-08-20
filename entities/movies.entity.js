@@ -5,8 +5,8 @@ import { client } from "../util/dbconnections.js";
 const Movies = new Entity(
   {
     model: {
-      entity: "Movies",
-      version: "2",
+      entity: "movies",
+      version: "3",
       service: "MovieService",
     },
     attributes: {

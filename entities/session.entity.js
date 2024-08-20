@@ -2,24 +2,24 @@ import { Entity } from "electrodb"; //ORM(object relational mapping -> SDK is ve
 import { client } from "../util/dbconnections.js";
 //client is the live connection to AWS
 
-const Users = new Entity(
+const session = new Entity(
   {
     model: {
-      entity: "Users",
+      entity: "session",
       version: "3",
-      service: "UsersService",
+      service: "SessionService",
     },
     attributes: {
+      sessionId: {
+        type: "number",
+        required: true,
+      },
       username: {
         type: "string",
         required: true,
       },
-      password: {
+      token: {
         type: "string",
-        required: true,
-      },
-      role: {
-        type: "number",
         required: true,
       },
     },
@@ -28,7 +28,7 @@ const Users = new Entity(
         pk: {
           // highlight-next-line
           field: "pk",
-          facets: ["username"],
+          facets: ["sessionId"],
         },
         sk: {
           // highlight-next-line
@@ -39,7 +39,7 @@ const Users = new Entity(
     },
     // add your DocumentClient and TableName as a second parameter
   },
-  { client, table: "Users" }
+  { client, table: "session" }
 );
 
-export { Users };
+export { session };
