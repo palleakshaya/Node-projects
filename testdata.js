@@ -128,19 +128,70 @@ const insertData = async () => {
 // console.log(blog);
 
 //Task 5 - Get author details + posts made by "A001" author
-const author = await Authors.get({ authorId: "A001" }).go();
-console.log(author);
-const posts = await BlogPost.scan
-  .where(
-    ({ authorId }, { eq }) => `
-      ${eq(authorId, "A001")}
-  `
-  )
-  .go();
-console.log(posts);
-const result = {
-  ...author.data,
-  posts: posts.data,
-};
-console.log(result);
+
+// const author = await Authors.get({ authorId: "A001" }).go();
+// console.log(author);
+// const posts = await BlogPost.scan
+//   .where(
+//     ({ authorId }, { eq }) => `
+//       ${eq(authorId, "A001")}
+//   `
+//   )
+//   .go();
+// console.log(posts);
+// const result = {
+//   ...author.data,
+//   posts: posts.data,
+// };
+// console.log(result);
+
 //Task 6 - find number of posts made by "A002" author
+
+// const posts = await BlogPost.scan
+//   .where(
+//     ({ authorId }, { eq }) => `
+//       ${eq(authorId, "A002")}
+//   `
+//   )
+//   .go();
+// console.log("No. of posts :", posts.data.length);
+
+//Task 7 - Get latest 2 blogs that were made
+
+// const posts = await BlogPost.scan.go({ limit: 2 });
+// console.log(posts);
+
+//BATCH MODE
+
+// (async () => {
+//   //  Batch get
+//   const authors = await Authors.get([
+//     { authorId: "A001" },
+//     { authorId: "A002" },
+//     { authorId: "A003" },
+//     { authorId: "A004" },
+//   ]).go();
+//   console.log(authors);
+// })();
+
+// // Batch Put
+(async () => {
+  const sampleAuthors = [
+    {
+      authorId: "A003",
+      name: "Teja Doe",
+      email: "teja@example.com",
+      bio: "Tech enthusiast and blogger",
+    },
+    {
+      authorId: "A004",
+      name: "Nithin Smith",
+      email: "nithin@example.com",
+      bio: "Writes about tech and science",
+    },
+  ];
+
+  //   // Batch writing
+  const authors = await Authors.put(sampleAuthors).go();
+  console.log("Batch write Completed");
+})();
